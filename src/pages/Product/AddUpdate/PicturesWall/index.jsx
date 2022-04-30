@@ -117,7 +117,7 @@ class App extends React.Component {
             <>
                 <Upload
                     accept='image/*' //接受上传的文件类型
-                    action="/manage/img/upload" //上传图片的接口地址
+                    action="/api1/manage/img/upload" //上传图片的接口地址
                     name='image' //请求参数名字
                     listType="picture-card" //样式，text，picture，picture-card
                     fileList={fileList} //所有已上传图片文件对象的数组
