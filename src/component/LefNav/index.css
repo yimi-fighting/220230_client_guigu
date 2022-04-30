@@ -1,0 +1,16 @@
+.lef-nav .lef-nav-header {
+  display: flex;
+  height: 80px;
+  background-color: #002140;
+  align-items: center;
+}
+.lef-nav .lef-nav-header img {
+  width: 40px;
+  height: 40px;
+  margin: 0 20px;
+}
+.lef-nav .lef-nav-header h1 {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 0%;
+}

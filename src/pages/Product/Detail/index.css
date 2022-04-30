@@ -1,0 +1,17 @@
+.ant-list-item {
+  justify-content: flex-start;
+}
+.title-detail-icon {
+  color: #1da57a;
+  margin-right: 10px;
+}
+.left {
+  font-size: 20px;
+  font-weight: 700;
+}
+.detail-img {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+  margin-right: 5px;
+}

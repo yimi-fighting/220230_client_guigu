@@ -7,7 +7,7 @@
 //引入react核心库
 import React from 'react'
 //引入ReactDOM
-import { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom'
 //引入App
 import App from './App'
 import { BrowserRouter } from "react-router-dom";
@@ -18,17 +18,9 @@ import storageUtils from './util/storageUtils';
 const user = storageUtils.getUser()
 memoryUtils.user = user
 
-const container = document.getElementById('root')
-const root = createRoot(container)
-root.render(
+ReactDOM.render(
     <BrowserRouter>
         <App />
-    </BrowserRouter>
+    </BrowserRouter>,
+    document.getElementById('root')
 )
-
-// ReactDOM.render(
-//     <BrowserRouter>
-//         <App />
-//     </BrowserRouter>,
-//     document.getElementById('root')
-// )
