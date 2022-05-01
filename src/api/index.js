@@ -70,3 +70,12 @@ export const reqUpdateStatus=(productId,status)=>ajax(BASE+'/api1/manage/product
 
 // 删除图片
 export const reqDeleteImg=(name)=>ajax(BASE+'/api1/manage/img/delete',{name},'POST')
+
+// 获取角色列表
+export const reqRoles = () => ajax(BASE + '/api1/manage/role/list')
+
+// 添加角色
+export const reqAddRole = (roleName) => ajax(BASE + '/api1/manage/role/add', { roleName }, 'POST')
+
+// 更新角色（给角色设置权限)
+export const reqUpdateRole = (role) => ajax(BASE + '/api1/manage/role/update', role, 'POST')
