@@ -53,11 +53,11 @@ export default function Header() {
         title = item.title//返回路由的标题
       }
       else if (item.children) {//判断是否存在二级路由
-        const CItem = item.children.find(citem => citem.key === path)//二级路由中是否有匹配成功的路由
+        const CItem = item.children.find(citem => path.indexOf(citem.key)===0)//二级路由中是否有匹配成功的路由
         if (CItem) {//子路由中存在匹配成功的路由
           title = CItem.title//返回路由的标题
-        }
-      }
+        } 
+      } 
     })
   }
 
