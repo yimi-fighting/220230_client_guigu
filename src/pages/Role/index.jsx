@@ -4,7 +4,11 @@ import { Button, Card, message, Table, Modal } from 'antd'
 import { PAGE_SIZE } from '../../util/constants'
 import { reqRoles, reqAddRole, reqUpdateRole } from '../../api'
 import AddForm from './AddForm'
+import AuthForm from './AuthForm'
+import storageUtils from '../../util/storageUtils'
 
+let addRoleForm // 保存添加角色modal中传递过来的form
+let menus // 保存修改角色权限modal中传递过来的menus
 export default function Role() {
   // 所有roles数组
   const [roles, setRoles] = useState([])
@@ -59,6 +63,44 @@ export default function Role() {
       message.error('获取用户列表失败')
     }
   }
+  // 添加角色
+  const addRole =() => {
+    addRoleForm.validateFields().then(async value => {
+      // console.log(value)//{roleName: 'asda'}
+      const result = await reqAddRole(value.roleName)
+      if (result.status === 0) {
+        message.success('添加用户成功')
+        // 将文本框置空
+        addRoleForm.setFieldsValue({roleName:''})
+        // 将创建角色对话框隐藏
+        setIsShowCreate(false)
+        // 刷新页面
+        const role=result.data
+        setRoles([...roles,role])
+      } else {
+        message.error('添加用户失败')
+      }
+    })
+  }
+  // 更新角色
+  const updateRole =async () => {
+    const _id = role._id
+    const user = storageUtils.getUser()
+    const auth_name = user.username
+    const time=new Date()
+    const auth_time = time.getTime()
+    const result =await reqUpdateRole({_id,menus,auth_time,auth_name})
+    if (result.status === 0) {
+      message.success('权限添加成功')
+      // 对话框隐藏
+      setIsShowAuth(false)
+      // 更新页面
+      getRoles()
+    } else {
+      message.error('权限添加失败')
+    }
+  }
+
   useEffect(() => {
     // 获得roles例表
     getRoles()
@@ -87,16 +129,28 @@ export default function Role() {
       </Table>
       {/* 渲染添加分类对话框 */}
       <Modal
-        title="添加分类"
+        title="添加角色"
         visible={isShowCreate}
         // 调用添加分类函数
-        // onOk={addCategory}
+        onOk={addRole}
         //点击取消按钮，调用函数 ,将isModalVisible设置为0
         onCancel={() => setIsShowCreate(false)}
       >
         {/* 添加分类的form */}
         {/* 参数1：一级分类所有categories；参数2：用来表示是一级列表还是二级列表 */}
-        <AddForm setForm={form => { propsForm = form }} />
+        <AddForm setForm={form =>addRoleForm=form} />
+      </Modal>
+      <Modal
+        title="设置角色权限"
+        visible={isShowAuth}
+        // 调用更新分类函数
+        onOk={updateRole}
+        //点击取消按钮，调用函数 ,将isModalVisible设置为0
+        onCancel={() => setIsShowAuth(false)}
+      >
+        {/* 添加分类的form */}
+        {/* 参数1：一级分类所有categories；参数2：用来表示是一级列表还是二级列表 */}
+        <AuthForm role={role} setmenus={m=>menus=m} />
       </Modal>
     </Card>
   )

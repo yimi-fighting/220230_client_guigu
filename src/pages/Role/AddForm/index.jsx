@@ -18,7 +18,7 @@ export default function AddForm(props) {
             {/* initialValues不能被动态更新，需要使用form.setFieldsValues进行动态更新，将其放在useEffect中 */}
             <Form form={form}>
                 <Form.Item
-                    label="添加角色"
+                    label="角色名称"
                     name="roleName"
                     rules={[
                         {
@@ -27,7 +27,7 @@ export default function AddForm(props) {
                         }
                     ]}
                 >
-                    <Input placeholder="添加角色" />
+                    <Input placeholder="请输入角色名称" />
                 </Form.Item>
             </Form>
         </Fragment >

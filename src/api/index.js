@@ -19,6 +19,9 @@ export const reqLogin = (username, password) => ajax(BASE+'/api1/login', { usern
 //添加用户
 export const reqAddUser=(user)=>ajax(BASE+'/api1/manage/user/add',user,'POST')
 
+// 获取用户列表
+export const reqUser=()=>ajax(BASE+'/api1/manage/user/list')
+
 //获取一级/二级分类的列表
 export const reqCategorys = (parentId) => ajax(BASE+'/api1/manage/category/list', { parentId }, 'GET')
 
@@ -79,3 +82,4 @@ export const reqAddRole = (roleName) => ajax(BASE + '/api1/manage/role/add', { r
 
 // 更新角色（给角色设置权限)
 export const reqUpdateRole = (role) => ajax(BASE + '/api1/manage/role/update', role, 'POST')
+
