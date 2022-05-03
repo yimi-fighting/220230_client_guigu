@@ -70,9 +70,7 @@ export default function Login() {
             // 声明式表单验证
             rules={[
               { required: true, message: '用户名不能为空!' },
-              { min: 4, message: '用户名不能小于4位!' },
-              { max: 12, message: '用户名不能大于12位!' },
-              { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须由数字,字符,下划线组成!' }
+              // { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须由数字,字符,下划线组成!' }
             ]}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
