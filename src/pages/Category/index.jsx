@@ -44,12 +44,10 @@ export default function Category() {
     {
       title: '分类名称',
       dataIndex: 'name',
-      key:nanoid(),
     },
     {
       title: '操作',
       dataIndex: '',
-      key: nanoid(),
       // render会将每一行的对象作为参数传递进来
       render: (category) => (
         <div>

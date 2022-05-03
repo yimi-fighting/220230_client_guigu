@@ -32,8 +32,6 @@ export default function LefNav() {
   }
   function getMenuNodes(menuConfig) {
     return menuConfig.reduce((pre, item) => {
-      console.log('pre', pre)
-      console.log('item',item)
       if (!item.children) {
         pre.push((
           <Menu.Item key={item.key} icon={item.icon}>

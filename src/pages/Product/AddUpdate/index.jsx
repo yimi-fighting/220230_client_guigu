@@ -3,7 +3,7 @@ import { Card, Input, Button, Form, InputNumber, Upload, Cascader, message } fro
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
 import PicturesWall from './PicturesWall'
-// import RichTextEditor from './RichTextEditor'
+import RichEditor from './RichEditor'
 import { reqCategorys, reqUpdateProduct, reqAddProduct } from '../../../api'
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -52,6 +52,8 @@ export default function AddUpdate() {
 
   // pictureWall的ref
   const pictureRef = useRef(null)
+  // RichWditor的ref
+  const richEditorRef = useRef(null)
 
   // 重新定义options
   const getOptions = async (data) => {
@@ -141,7 +143,8 @@ export default function AddUpdate() {
   const onFinish = async (values: any) => {
     // 使用ref调用pictureWall子组件的getImages()函数
     const imgs = pictureRef.current.getImages()
-    const { name, desc, price, categoryIds, detail} = values
+    const detail = richEditorRef.current.getDetail()
+    const { name, desc, price, categoryIds } = values
     let products
     let result
     let pCategoryId
@@ -159,11 +162,11 @@ export default function AddUpdate() {
         _id: product._id,
         categoryId: categoryId,
         pCategoryId: pCategoryId,
-        name:name,
-        desc:desc,
-        price:price,
-        detail:detail,
-        imgs:imgs
+        name: name,
+        desc: desc,
+        price: price,
+        detail: detail,
+        imgs: imgs
       }
       // 发送ajax请求，修改商品
       result = await reqUpdateProduct(products)
@@ -176,11 +179,11 @@ export default function AddUpdate() {
       products = {
         categoryId: categoryId,
         pCategoryId: pCategoryId,
-        name:name,
-        desc:desc,
-        price:price,
-        detail:detail,
-        imgs:imgs
+        name: name,
+        desc: desc,
+        price: price,
+        detail: detail,
+        imgs: imgs
       }
       // 发送ajax请求，添加商品
       result = await reqAddProduct(products)
@@ -266,11 +269,12 @@ export default function AddUpdate() {
         <Form.Item
           label="商品详情"
           name="detail"
+          labelCol={{ span: 3 }}//form左侧宽度
+          wrapperCol={{ span: 18 }}//form右侧宽度
           rules={[{ message: 'Please input name!' }]}
         >
           {/* 引入富文本编辑器的组件 */}
-          {/* <RichTextEditor /> */}
-          <span>详情</span>
+          <RichEditor ref={richEditorRef} detail={product.detail} />
         </Form.Item>
         {/* button */}
         <Form.Item wrapperCol={{ offset: 6 }}>
