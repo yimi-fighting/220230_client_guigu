@@ -7,6 +7,7 @@ const menuList = [
         title: '首页',//菜单标题名称
         key: '/admin/home',//对应的path
         icon: <PieChartOutlined />,//图标名称
+        isPublic:true,
     },
     {
         title: '商品',

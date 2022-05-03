@@ -6,10 +6,14 @@ import { reqRoles, reqAddRole, reqUpdateRole } from '../../api'
 import AddForm from './AddForm'
 import AuthForm from './AuthForm'
 import storageUtils from '../../util/storageUtils'
+import memoryUtils from '../../util/memoryUtils'
+import { useNavigate } from 'react-router-dom'
 
 let addRoleForm // 保存添加角色modal中传递过来的form
 let menus // 保存修改角色权限modal中传递过来的menus
 export default function Role() {
+  // 路由跳转
+  const navigate = useNavigate()
   // 所有roles数组
   const [roles, setRoles] = useState([])
   // 点击的role
@@ -64,33 +68,40 @@ export default function Role() {
     }
   }
   // 添加角色
-  const addRole =() => {
+  const addRole = () => {
     addRoleForm.validateFields().then(async value => {
       // console.log(value)//{roleName: 'asda'}
       const result = await reqAddRole(value.roleName)
       if (result.status === 0) {
         message.success('添加用户成功')
         // 将文本框置空
-        addRoleForm.setFieldsValue({roleName:''})
+        addRoleForm.setFieldsValue({ roleName: '' })
         // 将创建角色对话框隐藏
         setIsShowCreate(false)
         // 刷新页面
-        const role=result.data
-        setRoles([...roles,role])
+        const role = result.data
+        setRoles([...roles, role])
       } else {
         message.error('添加用户失败')
       }
     })
   }
   // 更新角色
-  const updateRole =async () => {
+  const updateRole = async () => {
     const _id = role._id
     const user = storageUtils.getUser()
     const auth_name = user.username
-    const time=new Date()
+    const time = new Date()
     const auth_time = time.getTime()
-    const result =await reqUpdateRole({_id,menus,auth_time,auth_name})
+    const result = await reqUpdateRole({ _id, menus, auth_time, auth_name })
     if (result.status === 0) {
+      // 如果当前更新的是自己角色的权限，强制退出
+      if (role._id === memoryUtils.user.role_id) {
+        memoryUtils.user = {}
+        storageUtils.removeUser()
+        navigate('/login', { replace: false })
+        message.success('权限已更新,请重新登入')
+      }
       message.success('权限添加成功')
       // 对话框隐藏
       setIsShowAuth(false)
@@ -138,7 +149,7 @@ export default function Role() {
       >
         {/* 添加分类的form */}
         {/* 参数1：一级分类所有categories；参数2：用来表示是一级列表还是二级列表 */}
-        <AddForm setForm={form =>addRoleForm=form} />
+        <AddForm setForm={form => addRoleForm = form} />
       </Modal>
       <Modal
         title="设置角色权限"
@@ -150,7 +161,7 @@ export default function Role() {
       >
         {/* 添加分类的form */}
         {/* 参数1：一级分类所有categories；参数2：用来表示是一级列表还是二级列表 */}
-        <AuthForm role={role} setmenus={m=>menus=m} />
+        <AuthForm role={role} setmenus={m => menus = m} />
       </Modal>
     </Card>
   )

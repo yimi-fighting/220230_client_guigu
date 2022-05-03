@@ -22,6 +22,10 @@ export const reqAddUser=(user)=>ajax(BASE+'/api1/manage/user/add',user,'POST')
 // 获取用户列表
 export const reqUser=()=>ajax(BASE+'/api1/manage/user/list')
 
+// 删除用户
+export const reqDeleteUser = (userId) => ajax(BASE + '/api1/manage/user/delete', { userId }, 'POST')
+
+
 //获取一级/二级分类的列表
 export const reqCategorys = (parentId) => ajax(BASE+'/api1/manage/category/list', { parentId }, 'GET')
 
